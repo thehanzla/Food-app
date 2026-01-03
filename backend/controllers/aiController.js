@@ -247,7 +247,7 @@ export const chatWithAI = async (req, res) => {
           { role: "system", content: systemPrompt },
           { role: "user", content: message }
         ],
-        model: "llama3-8b-8192", // Fast, Free, Good
+        model: "llama-3.3-70b-versatile", // Current stable Groq Model
         temperature: 0.7,
         max_tokens: 500
       });

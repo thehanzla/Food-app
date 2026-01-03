@@ -36,12 +36,23 @@ connectDB();
 
 app.use('/uploads', express.static(path.join(__dirname, 'uploads')));
 
+// 1. Root Route for Health Check
+app.get('/', (req, res) => {
+  res.send('Backend is running');
+});
+
 app.use('/api/auth', authRoutes);
 app.use('/api/restaurant', restaurantRoutes);
 app.use('/api/menu', menuRoutes);
 app.use('/api/orders', orderRoutes);
 app.use('/api/ai', aiRoutes);
 app.use('/api/location', locationRoutes);
+
+// Global Error Handler
+app.use((err, req, res, next) => {
+  console.error(err.stack);
+  res.status(500).json({ error: 'Something went wrong!', message: err.message });
+});
 
 const PORT = process.env.PORT || 5000
 

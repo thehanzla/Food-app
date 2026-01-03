@@ -32,7 +32,8 @@ app.use((req, res, next) => {
   next();
 });
 
-connectDB();
+// Connect to DB asynchronously (don't await at top level to avoid startup delay/crash)
+connectDB().catch(err => console.error("Top-level DB connection error:", err));
 
 app.use('/uploads', express.static(path.join(__dirname, 'uploads')));
 

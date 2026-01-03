@@ -18,14 +18,14 @@ const connectDB = async () => {
 
   if (!cached.promise) {
     const opts = {
-      bufferCommands: false,
+      // bufferCommands: false, // Removed to allow buffering
     };
     cached.promise = mongoose.connect(process.env.MONGODB_URI, opts).then((mongoose) => {
       console.log("Mongodb successfully connected.");
       return mongoose;
     });
   }
-  
+
   try {
     cached.conn = await cached.promise;
   } catch (e) {

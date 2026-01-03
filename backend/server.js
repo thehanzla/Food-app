@@ -21,20 +21,22 @@ const __dirname = path.dirname(__filename);
 const allowedOrigins = [
   process.env.CLIENT_URL,
   'http://localhost:5173',
-  'https://food-app-two-ruby.vercel.app' // Add your frontend production URL
+  'https://food-app-two-ruby.vercel.app',
+  'https://food-ewjfdc1sa-thehanzlas-projects.vercel.app'
 ].filter(Boolean);
 
 app.use(cors({
   origin: function (origin, callback) {
     // Allow requests with no origin (like mobile apps or curl requests)
     if (!origin) return callback(null, true);
-    if (allowedOrigins.indexOf(origin) === -1) {
-      // Optional: loose check for subdomains or matching parts if needed?
-      // For now, strict match is safer.
-      const msg = 'The CORS policy for this site does not allow access from the specified Origin.';
-      return callback(new Error(msg), false);
+
+    // Check if origin is in allowedOrigins OR if it's a Vercel preview deployment
+    if (allowedOrigins.indexOf(origin) !== -1 || origin.endsWith('.vercel.app')) {
+      return callback(null, true);
     }
-    return callback(null, true);
+
+    const msg = 'The CORS policy for this site does not allow access from the specified Origin.';
+    return callback(new Error(msg), false);
   },
   credentials: true
 }));

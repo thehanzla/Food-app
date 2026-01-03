@@ -10,16 +10,15 @@ dotenv.config();
 
 import { MANUAL_RESTAURANTS, MANUAL_DEALS } from './restaurantController.js';
 
-import { GoogleGenerativeAI } from "@google/generative-ai";
+import Groq from "groq-sdk";
+
+const groq = new Groq({
+  apiKey: process.env.GROQ_API_KEY
+});
 
 export const chatWithAI = async (req, res) => {
   try {
     const { message, userLocation } = req.body;
-
-    // Check configuration
-    if (!process.env.GEMINI_API_KEY) {
-      return res.status(500).json({ success: false, message: "AI Service Configuration Error: Gemini API Key missing." });
-    }
 
     // 1. Fetch Data (Restaurants)
     const restaurants = await User.find({ role: 'restaurant', 'restaurantDetails.isVerified': true })
@@ -240,45 +239,43 @@ export const chatWithAI = async (req, res) => {
       }
     }
 
-    const genAI = new GoogleGenerativeAI(process.env.GEMINI_API_KEY);
-
-    // Model strategy: Use standard stable models
-    let modelName = "gemini-1.5-flash";
-
-    // Verify Key Loading (Debug)
-    console.log("DEBUG: GEMINI_API_KEY Status:", process.env.GEMINI_API_KEY ? "Loaded" : "Missing", "Length:", process.env.GEMINI_API_KEY?.length);
-
+    // GROQ API CALL
+    console.log("Calling Groq AI...");
     try {
-      const model = genAI.getGenerativeModel({
-        model: modelName,
-        systemInstruction: systemPrompt
+      const completion = await groq.chat.completions.create({
+        messages: [
+          { role: "system", content: systemPrompt },
+          { role: "user", content: message }
+        ],
+        model: "llama3-8b-8192", // Fast, Free, Good
+        temperature: 0.7,
+        max_tokens: 500
       });
-      const result = await model.generateContent(message);
-      const response = await result.response;
-      const reply = response.text();
 
-      res.status(200).json({ success: true, reply: reply, modelUsed: modelName, recommendedItems });
+      const reply = completion.choices[0]?.message?.content || "I couldn't generate a response.";
 
-    } catch (error) {
-      console.error(`AI Manifestation Failed (${modelName}). Returning Fallback. Error:`, error.message);
+      res.status(200).json({ success: true, reply: reply, modelUsed: "groq-llama3-8b", recommendedItems });
 
-      // FALLBACK RESPONSE (Prevents 500 Crash)
-      const fallbackReply = "I'm currently unable to connect to my AI brain (Google Gemini), but I found some delicious items for you based on your keywords!";
+    } catch (groqError) {
+      console.error("Groq API Failed:", groqError.message);
+
+      // FALLBACK RESPONSE
+      const fallbackReply = "I'm having trouble connecting to my brain (Groq), but here are some matches from our database!";
 
       res.status(200).json({
         success: true,
         reply: fallbackReply,
-        modelUsed: "fallback-offline",
+        modelUsed: "offline-fallback",
         recommendedItems,
         isFallback: true
       });
     }
 
   } catch (error) {
-    console.error("AI Chat Error:", error.message);
+    console.error("AI Chat Logic Error:", error.message);
     res.status(500).json({
       success: false,
-      message: "I'm having a bit of trouble connecting to the network.",
+      message: "Internal Server Error in AI Chat",
       error: error.message
     });
   }

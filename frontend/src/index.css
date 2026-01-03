@@ -1,0 +1,211 @@
+@import "tailwindcss";
+
+:root {
+  /* Prominent Food Palette */
+  --primary: #dc2626;
+  --primary-dark: #b91c1c;
+  --secondary: #d97706;
+  --accent-green: #15803d;
+
+  /* Backgrounds */
+  --bg-body: #f8f5f0;
+  --bg-card: #fffbf2;
+  --bg-subtle: #efece5;
+  --bg-dark: #292524;
+
+  --bg-gradient-hero: linear-gradient(135deg, #f8f5f0 0%, #fff1f2 100%);
+
+  /* Text */
+  --text-main: #292524;
+  --text-secondary: #57534e;
+  --text-muted: #78716c;
+
+  /* Borders */
+  --border-light: #e7e5e4;
+}
+
+body {
+  background-color: var(--bg-body);
+  color: var(--text-main);
+  font-family: 'DM Sans', sans-serif;
+  overflow-x: hidden;
+  -webkit-font-smoothing: antialiased;
+  background-image:
+    radial-gradient(#dc2626 0.5px, transparent 0.5px),
+    radial-gradient(#d6d3d1 0.5px, transparent 0.5px);
+  background-size: 30px 30px;
+  background-position: 0 0, 15px 15px;
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  font-family: 'Playfair Display', serif;
+  color: var(--text-main);
+  letter-spacing: -0.01em;
+}
+
+.card {
+  background: var(--bg-card);
+  border: 1px solid var(--border-light);
+  border-radius: 1.5rem;
+  box-shadow: 0 4px 20px -5px rgba(0, 0, 0, 0.05);
+  transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+}
+
+.card:hover {
+  transform: translateY(-8px);
+  box-shadow: 0 20px 25px -5px rgba(220, 38, 38, 0.15);
+  border-color: #fca5a5;
+}
+
+.btn-primary {
+  background: var(--primary);
+  color: white;
+  font-weight: 700;
+  padding: 0.875rem 2rem;
+  border-radius: 2rem;
+  border: none;
+  font-family: 'DM Sans', sans-serif;
+  letter-spacing: 0.02em;
+  transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+  box-shadow: 0 4px 10px rgba(220, 38, 38, 0.3);
+}
+
+.btn-primary:hover {
+  background: var(--primary-dark);
+  transform: scale(1.05);
+  box-shadow: 0 8px 20px rgba(220, 38, 38, 0.4);
+}
+
+.btn-secondary {
+  background: white;
+  color: var(--text-main);
+  border: 2px solid var(--bg-subtle);
+  padding: 0.875rem 2rem;
+  border-radius: 2rem;
+  font-weight: 700;
+  font-family: 'DM Sans', sans-serif;
+  transition: all 0.3s ease;
+}
+
+.btn-secondary:hover {
+  border-color: var(--primary);
+  color: var(--primary);
+  background: #fff1f2;
+}
+
+.floating-element {
+  position: absolute;
+  pointer-events: none;
+  z-index: 0;
+  animation: float-random 10s ease-in-out infinite;
+}
+
+@keyframes float-random {
+
+  0%,
+  100% {
+    transform: translate(0, 0) rotate(0deg);
+  }
+
+  33% {
+    transform: translate(10px, -15px) rotate(5deg);
+  }
+
+  66% {
+    transform: translate(-5px, 10px) rotate(-3deg);
+  }
+}
+
+/* Marquee Animations for Trusted Partners */
+@keyframes marquee {
+  0% {
+    transform: translateX(0%);
+  }
+
+  100% {
+    transform: translateX(-100%);
+  }
+}
+
+@keyframes marquee2 {
+  0% {
+    transform: translateX(100%);
+  }
+
+  100% {
+    transform: translateX(0%);
+  }
+}
+
+.animate-marquee {
+  animation: marquee 25s linear infinite;
+}
+
+.animate-marquee2 {
+  animation: marquee2 25s linear infinite;
+}
+
+/* Utilities */
+.no-scrollbar::-webkit-scrollbar {
+  display: none;
+}
+
+.no-scrollbar {
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+}
+
+.mask-linear-fade {
+  mask-image: linear-gradient(to right, transparent, black 5%, black 95%, transparent);
+  -webkit-mask-image: linear-gradient(to right, transparent, black 5%, black 95%, transparent);
+}
+
+.food {
+  color: #FFFBF2;
+}
+
+.loading-spinner {
+  width: 48px;
+  height: 48px;
+  border: 5px solid var(--bg-subtle);
+  border-top: 5px solid var(--primary);
+  border-radius: 50%;
+  animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}
+
+/* Custom Scrollbar */
+::-webkit-scrollbar {
+  width: 10px;
+  height: 10px;
+}
+
+::-webkit-scrollbar-track {
+  background: var(--bg-subtle);
+  border-radius: 5px;
+}
+
+::-webkit-scrollbar-thumb {
+  background: var(--primary);
+  border-radius: 5px;
+  border: 2px solid var(--bg-subtle);
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: var(--primary-dark);
+}
+
+/* Firefox support */
+html {
+  scrollbar-width: thin;
+  scrollbar-color: var(--primary) var(--bg-subtle);
+}

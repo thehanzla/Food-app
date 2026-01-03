@@ -256,27 +256,13 @@ export const chatWithAI = async (req, res) => {
 
       res.status(200).json({ success: true, reply: reply, modelUsed: modelName, recommendedItems });
 
-    } catch (firstError) {
-      console.warn(`Primary model ${modelName} failed: ${firstError.message}. Retrying with fallback...`);
-
-      try {
-        // Fallback to gemini-pro
-        modelName = "gemini-pro";
-        const model = genAI.getGenerativeModel({
-          model: modelName,
-          systemInstruction: systemPrompt
-        });
-
-        const result = await model.generateContent(message);
-        const response = await result.response;
-        const reply = response.text();
-
-        res.status(200).json({ success: true, reply: reply, modelUsed: modelName, recommendedItems });
-
-      } catch (secondError) {
-        console.error("All AI models failed:", secondError.message);
-        throw secondError; // Propagate to main catch
+    } catch (error) {
+      console.error(`AI Model ${modelName} failed. Full Error:`, error);
+      // Log the inner response error if available (common in Google AI errors)
+      if (error.response) {
+        console.error("AI Response Error Details:", JSON.stringify(error.response, null, 2));
       }
+      throw error; // Propagate to main catch
     }
 
   } catch (error) {

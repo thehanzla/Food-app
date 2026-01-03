@@ -57,9 +57,13 @@ const AdminDashboard = () => {
     if (doc && doc.filePath) {
       const normalizePath = doc.filePath.replace(/\\/g, "/");
       const link = document.createElement('a');
-      // HARDCODE Production URL to guarantee it works
-      const baseUrl = 'https://food-five-rho-61.vercel.app';
-      link.href = `${baseUrl}/${normalizePath}`;
+
+      if (normalizePath.startsWith('data:')) {
+        link.href = normalizePath;
+      } else {
+        const baseUrl = 'https://food-five-rho-61.vercel.app';
+        link.href = `${baseUrl}/${normalizePath}`;
+      }
       link.setAttribute('download', doc.fileName || 'download');
       link.setAttribute('target', '_blank');
       document.body.appendChild(link);

@@ -1,6 +1,7 @@
 import RestaurantRequest from '../models/RestaurantRequest.js';
 import User from '../models/User.js';
 import { sendEmail } from '../utils/sendEmail.js';
+import fs from 'fs'; // Import fs to read file buffers
 
 // Submit restaurant registration request
 export const submitRestaurantRequest = async (req, res) => {
@@ -31,12 +32,14 @@ export const submitRestaurantRequest = async (req, res) => {
       famousFor,
       document: files['document'] ? {
         fileName: files['document'][0].originalname,
-        filePath: files['document'][0].path.replace(/\\/g, "/"),
+        // Convert to Base64 for Vercel Persistence
+        filePath: `data:${files['document'][0].mimetype};base64,${fs.readFileSync(files['document'][0].path).toString('base64')}`,
         fileType: files['document'][0].mimetype
       } : null,
       image: files['image'] ? {
         fileName: files['image'][0].originalname,
-        filePath: files['image'][0].path.replace(/\\/g, "/")
+        // Convert to Base64 for Vercel Persistence
+        filePath: `data:${files['image'][0].mimetype};base64,${fs.readFileSync(files['image'][0].path).toString('base64')}`
       } : null
     });
 

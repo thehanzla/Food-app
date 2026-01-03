@@ -57,10 +57,9 @@ const AdminDashboard = () => {
     if (doc && doc.filePath) {
       const normalizePath = doc.filePath.replace(/\\/g, "/");
       const link = document.createElement('a');
-      const baseUrl = import.meta.env.VITE_API_URL || 'http://localhost:5000/api';
-      // If VITE_API_URL has /api at the end, remove it because filePath usually starts from root uploads/
-      const cleanBaseUrl = baseUrl.replace(/\/api$/, '');
-      link.href = `${cleanBaseUrl}/${normalizePath}`;
+      // HARDCODE Production URL to guarantee it works
+      const baseUrl = 'https://food-five-rho-61.vercel.app';
+      link.href = `${baseUrl}/${normalizePath}`;
       link.setAttribute('download', doc.fileName || 'download');
       link.setAttribute('target', '_blank');
       document.body.appendChild(link);

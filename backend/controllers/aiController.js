@@ -245,6 +245,9 @@ export const chatWithAI = async (req, res) => {
     // Model strategy: Use standard stable models
     let modelName = "gemini-1.5-flash";
 
+    // Verify Key Loading (Debug)
+    console.log("DEBUG: GEMINI_API_KEY Status:", process.env.GEMINI_API_KEY ? "Loaded" : "Missing", "Length:", process.env.GEMINI_API_KEY?.length);
+
     try {
       const model = genAI.getGenerativeModel({
         model: modelName,
@@ -257,12 +260,18 @@ export const chatWithAI = async (req, res) => {
       res.status(200).json({ success: true, reply: reply, modelUsed: modelName, recommendedItems });
 
     } catch (error) {
-      console.error(`AI Model ${modelName} failed. Full Error:`, error);
-      // Log the inner response error if available (common in Google AI errors)
-      if (error.response) {
-        console.error("AI Response Error Details:", JSON.stringify(error.response, null, 2));
-      }
-      throw error; // Propagate to main catch
+      console.error(`AI Manifestation Failed (${modelName}). Returning Fallback. Error:`, error.message);
+
+      // FALLBACK RESPONSE (Prevents 500 Crash)
+      const fallbackReply = "I'm currently unable to connect to my AI brain (Google Gemini), but I found some delicious items for you based on your keywords!";
+
+      res.status(200).json({
+        success: true,
+        reply: fallbackReply,
+        modelUsed: "fallback-offline",
+        recommendedItems,
+        isFallback: true
+      });
     }
 
   } catch (error) {

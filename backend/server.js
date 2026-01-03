@@ -63,7 +63,16 @@ app.use((req, res, next) => {
 });
 
 // Connect to DB asynchronously (don't await at top level to avoid startup delay/crash)
-connectDB().catch(err => console.error("Top-level DB connection error:", err));
+// DB Connection Middleware for Serverless
+app.use(async (req, res, next) => {
+  try {
+    await connectDB();
+    next();
+  } catch (error) {
+    console.error("Database connection failed:", error);
+    res.status(500).json({ error: "Database connection failed" });
+  }
+});
 
 app.use('/uploads', express.static(path.join(__dirname, 'uploads')));
 app.use('/tmp', express.static('/tmp')); // Allow serving temporary files on Vercel

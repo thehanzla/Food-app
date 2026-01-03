@@ -57,7 +57,10 @@ const AdminDashboard = () => {
     if (doc && doc.filePath) {
       const normalizePath = doc.filePath.replace(/\\/g, "/");
       const link = document.createElement('a');
-      link.href = `${(import.meta.env.VITE_API_URL || 'http://localhost:5000/api').replace('/api', '')}/${normalizePath}`;
+      const baseUrl = import.meta.env.VITE_API_URL || 'http://localhost:5000/api';
+      // If VITE_API_URL has /api at the end, remove it because filePath usually starts from root uploads/
+      const cleanBaseUrl = baseUrl.replace(/\/api$/, '');
+      link.href = `${cleanBaseUrl}/${normalizePath}`;
       link.setAttribute('download', doc.fileName || 'download');
       link.setAttribute('target', '_blank');
       document.body.appendChild(link);
@@ -252,18 +255,18 @@ const AdminDashboard = () => {
                 )}
 
                 {selectedRequest.status === 'pending' && (
-                  <div className="flex gap-4 pt-6 mt-6 border-t border-stone-100">
+                  <div className="flex flex-col sm:flex-row gap-4 pt-6 mt-6 border-t border-stone-100">
                     <button
                       onClick={() => updateRequestStatus(selectedRequest._id, 'approved')}
-                      className="flex-1 bg-green-600 hover:bg-green-500 text-white py-4 rounded-xl font-bold transition-all shadow-lg shadow-green-600/20"
+                      className="flex-1 bg-green-600 hover:bg-green-700 text-white py-4 px-6 rounded-xl font-bold text-lg transition-all shadow-lg shadow-green-600/20 flex items-center justify-center gap-2"
                     >
-                      Approve Request
+                      <CheckCircle size={20} /> Approve
                     </button>
                     <button
                       onClick={() => updateRequestStatus(selectedRequest._id, 'rejected')}
-                      className="flex-1 bg-red-600 hover:bg-red-500 text-white py-4 rounded-xl font-bold transition-all shadow-lg shadow-red-600/20"
+                      className="flex-1 bg-white hover:bg-red-50 text-red-600 border-2 border-red-100 hover:border-red-200 py-4 px-6 rounded-xl font-bold text-lg transition-all shadow-sm flex items-center justify-center gap-2"
                     >
-                      Reject Request
+                      <XCircle size={20} /> Reject
                     </button>
                   </div>
                 )}

@@ -242,8 +242,8 @@ export const chatWithAI = async (req, res) => {
 
     const genAI = new GoogleGenerativeAI(process.env.GEMINI_API_KEY);
 
-    // Model strategy: Use available Gemini 2.5/2.0 models
-    let modelName = "gemini-2.5-flash";
+    // Model strategy: Use standard stable models
+    let modelName = "gemini-1.5-flash";
 
     try {
       const model = genAI.getGenerativeModel({
@@ -260,8 +260,8 @@ export const chatWithAI = async (req, res) => {
       console.warn(`Primary model ${modelName} failed: ${firstError.message}. Retrying with fallback...`);
 
       try {
-        // Fallback to gemini-2.0-flash
-        modelName = "gemini-2.0-flash";
+        // Fallback to gemini-pro
+        modelName = "gemini-pro";
         const model = genAI.getGenerativeModel({
           model: modelName,
           systemInstruction: systemPrompt

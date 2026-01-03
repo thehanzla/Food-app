@@ -66,6 +66,7 @@ app.use((req, res, next) => {
 connectDB().catch(err => console.error("Top-level DB connection error:", err));
 
 app.use('/uploads', express.static(path.join(__dirname, 'uploads')));
+app.use('/tmp', express.static('/tmp')); // Allow serving temporary files on Vercel
 
 // 1. Root Route for Health Check
 app.get('/', (req, res) => {

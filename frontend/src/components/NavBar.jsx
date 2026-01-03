@@ -57,12 +57,12 @@ const NavBar = () => {
 
           {/* LOGO */}
           <Link to="/" className="flex items-center gap-2 group">
-            <div className={`p-2 rounded-2xl shadow-lg transition-transform group-hover:scale-105 group-hover:rotate-3 ${scrolled ? 'bg-brand' : 'bg-white'}`}>
-              <Utensils className={`size-6 ${scrolled ? 'text-white' : 'text-brand'}`} />
+            <div className={`p-2 rounded-2xl shadow-lg transition-transform group-hover:scale-105 group-hover:rotate-3 ${scrolled ? 'bg-red-600' : 'bg-white'}`}>
+              <Utensils className={`size-6 ${scrolled ? 'text-white' : 'text-red-600'}`} />
             </div>
             <div className="flex flex-col">
               <span className={`text-xl font-bold tracking-tight font-display leading-none ${scrolled ? 'text-stone-900' : 'text-stone-900 drop-shadow-sm'}`}>
-                Foodie<span className="text-brand">AI</span>
+                Foodie<span className="text-red-600">AI</span>
               </span>
               <span className="text-[10px] text-stone-500 uppercase tracking-wider font-bold">Smart Dining</span>
             </div>

@@ -80,11 +80,11 @@ function AppContent() {
 
   return (
     <div className="app min-h-screen bg-[var(--bg-body)] text-[var(--text-main)] flex flex-col">
-      <NavBar />
+      {!location.pathname.startsWith('/menu/') && <NavBar />}
       <main className="flex-1">
         <AnimatedRoutes />
       </main>
-      <Footer />
+      {!location.pathname.startsWith('/menu/') && <Footer />}
     </div>
   );
 }

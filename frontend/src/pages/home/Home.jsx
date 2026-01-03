@@ -140,7 +140,7 @@ const Home = () => {
       <motion.div className="fixed top-0 left-0 right-0 h-1 bg-gradient-to-r from-red-500 to-orange-500 origin-left z-50" style={{ scaleX: 0 }} animate={{ scaleX: 1 }} transition={{ duration: 1.5 }} />
 
       {/* HERO SECTION */}
-      <section className="relative min-h-[90vh] flex items-center pt-28 pb-20 px-6 overflow-hidden">
+      <section className="relative min-h-[90vh] flex items-center pt-24 pb-12 md:pt-28 md:pb-20 px-6 overflow-hidden">
         <div className="absolute top-20 left-[10%] opacity-10 text-stone-900 pointer-events-none text-9xl animate-float-slow">🍅</div>
         <div className="absolute bottom-40 right-[5%] opacity-10 text-stone-900 pointer-events-none text-9xl animate-float-medium">🥬</div>
         <div className="absolute top-40 right-[20%] opacity-10 text-stone-900 pointer-events-none animate-float-fast"><CircuitBoard size={120} /></div>
@@ -163,7 +163,7 @@ const Home = () => {
                 </motion.div>
               )}
 
-              <motion.h1 variants={fadeInUp} className="text-6xl lg:text-9xl font-black leading-[0.9] mb-8 tracking-tighter mix-blend-multiply text-stone-900 font-serif">
+              <motion.h1 variants={fadeInUp} className="text-4xl md:text-6xl lg:text-9xl font-black leading-[0.9] mb-6 md:mb-8 tracking-tighter mix-blend-multiply text-stone-900 font-serif">
                 Taste the <br />
                 <span className="text-red-600 italic relative">
                   Extraordinary

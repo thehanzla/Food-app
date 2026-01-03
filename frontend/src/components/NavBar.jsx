@@ -180,7 +180,7 @@ const NavBar = () => {
             {!isAuthenticated && (
               <div className="grid grid-cols-2 gap-3 mt-2">
                 <Link to="/login" className="flex justify-center p-3 rounded-xl bg-stone-100 text-stone-900 font-bold">Login</Link>
-                <Link to="/register" className="flex justify-center p-3 rounded-xl bg-brand text-white font-bold shadow-lg shadow-brand/20">Sign Up</Link>
+                <Link to="/register" className="flex justify-center p-3 rounded-xl bg-red-600 text-white font-bold shadow-lg shadow-red-900/20">Sign Up</Link>
               </div>
             )}
             {isAuthenticated && (

@@ -242,8 +242,8 @@ export const chatWithAI = async (req, res) => {
 
     const genAI = new GoogleGenerativeAI(process.env.GEMINI_API_KEY);
 
-    // Model strategy: Use specific versioned model to avoid alias 404s
-    let modelName = "gemini-1.5-flash-001";
+    // Model strategy: Use standard stable models
+    let modelName = "gemini-1.5-flash";
 
     try {
       const model = genAI.getGenerativeModel({

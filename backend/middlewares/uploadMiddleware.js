@@ -3,8 +3,12 @@ import path from 'path';
 import fs from 'fs';
 
 // Create uploads directory if it doesn't exist
-const uploadsDir = 'uploads/documents';
-if (!fs.existsSync(uploadsDir)) {
+// Determine upload directory based on environment
+const isVercel = process.env.VERCEL === '1';
+const uploadsDir = isVercel ? '/tmp' : 'uploads/documents';
+
+// Create uploads directory if it doesn't exist (only locally)
+if (!isVercel && !fs.existsSync(uploadsDir)) {
   fs.mkdirSync(uploadsDir, { recursive: true });
 }
 
